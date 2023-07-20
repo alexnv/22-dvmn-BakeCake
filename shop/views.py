@@ -6,7 +6,6 @@ from shop.models import Layer, Berries, Topping, Shape, Decor
 
 class IndexView(View):
     def get(self, request):
-
         context = {
             'layers':  Layer.objects.filter(available=True),
             'shapes': Shape.objects.filter(available=True),
@@ -14,9 +13,7 @@ class IndexView(View):
             'berries': Berries.objects.filter(available=True),
             'decors': Decor.objects.filter(available=True),
         }
-        context = {
 
-        }
         return render(request, 'index.html', context=context)
 
     def post(self, request):
