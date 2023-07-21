@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Layer(models.Model):
@@ -181,9 +182,59 @@ class Decor(models.Model):
     def int_price(self):
         return int(self.price)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:   
         return f"{self.name}"
 
     class Meta:
         verbose_name = 'Опция украшения'
         verbose_name_plural = 'Опции украшения'
+
+
+class Users(models.Model):
+    name = models.ForeignKey(
+        User,
+        verbose_name='Имя заказчика',
+        on_delete=models.CASCADE,
+        related_name='customer'
+    )
+    phone = models.TextField('Номер телефона')
+    address = models.TextField('Адрес заказчика')
+
+
+class Orders(models.Model):
+    layer = models.ForeignKey(
+        Layer,
+        verbose_name='Уровень',
+        on_delete=models.CASCADE
+    )
+    shape = models.ForeignKey(
+        Shape,
+        verbose_name='Форма',
+        on_delete=models.CASCADE
+    )
+    topping = models.ForeignKey(
+        Topping,
+        verbose_name='топпинг',
+        on_delete=models.CASCADE
+    )
+    berry = models.ForeignKey(
+        Berries,
+        verbose_name='Ягоды',
+        on_delete=models.CASCADE,
+        blank=True
+    )
+    decor = models.ForeignKey(
+        Decor,
+        verbose_name='Декор',
+        on_delete=models.CASCADE,
+        blank=True
+    )
+    word = models.TextField(verbose_name='Надпись')
+    comment = models.TextField('Комментарий к заказу', blank=True)
+    address = models.ForeignKey(
+        Users,
+        verbose_name='Надпись',
+        on_delete=models.CASCADE
+    )
+    date_delivery = models.DateField('Дата доставки')
+    time_delivery = models.TimeField('Время доставки')
