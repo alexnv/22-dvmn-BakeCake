@@ -12,8 +12,6 @@ class IndexView(View):
             'toppings': Topping.objects.filter(available=True),
             'berries': Berries.objects.filter(available=True),
             'decors': Decor.objects.filter(available=True),
-            'users': Users.objects.filter(available=True),
-            'orders': Orders.objects.filter(available=True),
         }
 
         return render(request, 'index.html', context=context)

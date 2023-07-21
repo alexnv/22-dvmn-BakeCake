@@ -6,7 +6,7 @@ from .models import Layer, Shape, Topping, Berries, Decor, Users, Orders
 @admin.register(Layer)
 class LayerAdmin(admin.ModelAdmin):
     search_fields = ('num_layers', 'price')
-    readonly_fields = ['price']
+    readonly_fields = []
     list_display = [
         'num_layers',
         'price',
@@ -28,7 +28,7 @@ class ShapeAdmin(admin.ModelAdmin):
 @admin.register(Topping)
 class ToppingAdmin(admin.ModelAdmin):
     search_fields = ('name', 'price')
-    readonly_fields = ['price']
+    readonly_fields = []
     list_display = [
         'name',
         'price',
@@ -39,7 +39,7 @@ class ToppingAdmin(admin.ModelAdmin):
 @admin.register(Berries)
 class BerriesAdmin(admin.ModelAdmin):
     search_fields = ('name', 'price')
-    readonly_fields = ['price']
+    readonly_fields = []
     list_display = [
         'name',
         'price',
@@ -50,7 +50,7 @@ class BerriesAdmin(admin.ModelAdmin):
 @admin.register(Decor)
 class DecorAdmin(admin.ModelAdmin):
     search_fields = ('name', 'price')
-    readonly_fields = ['price']
+    readonly_fields = []
     list_display = [
         'name',
         'price',
