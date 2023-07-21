@@ -200,6 +200,13 @@ class Users(models.Model):
     phone = models.TextField('Номер телефона')
     address = models.TextField('Адрес заказчика')
 
+    def __str__(self) -> str:
+        return f"{self.name}"
+
+    class Meta:
+        verbose_name = 'Клиенты'
+        verbose_name_plural = 'Клиенты'
+
 
 class Orders(models.Model):
     layer = models.ForeignKey(
@@ -238,3 +245,10 @@ class Orders(models.Model):
     )
     date_delivery = models.DateField('Дата доставки')
     time_delivery = models.TimeField('Время доставки')
+
+    def __str__(self) -> str:
+        return f"{self._check_id_field()}"
+
+    class Meta:
+        verbose_name = 'Заказы'
+        verbose_name_plural = 'Заказы'
