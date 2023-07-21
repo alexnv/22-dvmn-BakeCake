@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Layer, Shape, Topping, Berries, Decor, Users, Orders
+from .models import Layer, Shape, Topping, Berries, Decor, Customers, Orders, UtmCheckin
 
 
 @admin.register(Layer)
@@ -58,21 +58,31 @@ class DecorAdmin(admin.ModelAdmin):
     ]
 
 
-@admin.register(Users)
-class UsersAdmin(admin.ModelAdmin):
-    search_fields = ('name', 'phone')
+@admin.register(Customers)
+class CustomersAdmin(admin.ModelAdmin):
+    search_fields = ('user', 'phone')
     list_display = [
-        'name',
+        'user',
         'phone',
         'address',
     ]
-    raw_id_fields = ['name']
+    raw_id_fields = ['user']
 
 
 @admin.register(Orders)
 class OrdersAdmin(admin.ModelAdmin):
-    search_fields = ['address']
+    search_fields = ['customer']
     list_display = [
-        'address',
+        'customer',
     ]
-    raw_id_fields = ['address']
+    raw_id_fields = ['customer']
+
+
+@admin.register(UtmCheckin)
+class UtmCheckinAdmin(admin.ModelAdmin):
+    search_fields = ('utm_source', 'check_in_date')
+    list_display = [
+        'utm_source',
+        'check_in_date',
+        'utm_term',
+    ]

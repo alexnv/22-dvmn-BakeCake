@@ -190,8 +190,8 @@ class Decor(models.Model):
         verbose_name_plural = 'Опции украшения'
 
 
-class Users(models.Model):
-    name = models.ForeignKey(
+class Customers(models.Model):
+    user = models.ForeignKey(
         User,
         verbose_name='Имя заказчика',
         on_delete=models.CASCADE,
@@ -201,7 +201,7 @@ class Users(models.Model):
     address = models.TextField('Адрес заказчика')
 
     def __str__(self) -> str:
-        return f"{self.name}"
+        return f"{self.user}"
 
     class Meta:
         verbose_name = 'Клиенты'
@@ -238,10 +238,10 @@ class Orders(models.Model):
     )
     word = models.TextField(verbose_name='Надпись')
     comment = models.TextField('Комментарий к заказу', blank=True)
-    address = models.ForeignKey(
-        Users,
-        verbose_name='Надпись',
-        on_delete=models.CASCADE
+    customer = models.ForeignKey(
+        Customers,
+        verbose_name='Клиент',
+        on_delete=models.CASCADE,
     )
     date_delivery = models.DateField('Дата доставки')
     time_delivery = models.TimeField('Время доставки')
@@ -252,3 +252,20 @@ class Orders(models.Model):
     class Meta:
         verbose_name = 'Заказы'
         verbose_name_plural = 'Заказы'
+
+
+class UtmCheckin(models.Model):
+
+    check_in_date = models.DateTimeField('Время захода', auto_now=True)
+    utm_source = models.CharField('Источник UTM', max_length=100)
+    utm_medium = models.CharField('Тип траффика', max_length=10)
+    utm_campaign = models.CharField('Название компании', max_length=100)
+    utm_content = models.CharField('Идентификатор объявления', max_length=250)
+    utm_term = models.CharField('Ключевое слово', max_length=100)
+
+    class Meta:
+        verbose_name = 'UTM метка'
+        verbose_name_plural = 'UTM метки'
+
+    def str(self):
+        return self.utm_source
