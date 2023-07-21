@@ -209,6 +209,18 @@ class Users(models.Model):
 
 
 class Orders(models.Model):
+    PAYMENT = 'Payment'
+    PREPARING = 'Preparing'
+    IN_DELIVERY = 'In delivery'
+    COMPLETED = 'Completed'
+
+    STATUSES = [
+        (PAYMENT, 'Ожидает оплаты'),
+        (PREPARING, 'Готовится'),
+        (IN_DELIVERY, 'Доставляется'),
+        (COMPLETED, 'Завершен'),
+    ]
+
     layer = models.ForeignKey(
         Layer,
         verbose_name='Уровень',
@@ -245,6 +257,13 @@ class Orders(models.Model):
     )
     date_delivery = models.DateField('Дата доставки')
     time_delivery = models.TimeField('Время доставки')
+
+    status = models.CharField(
+        'Статус заказа',
+        max_length=20,
+        choices=STATUSES,
+        default=PAYMENT,
+    )
 
     def __str__(self) -> str:
         return f"{self._check_id_field()}"
