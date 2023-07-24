@@ -5,7 +5,7 @@
 {% block content %}
 <main>
 	<div class="container mt-header">
-		{% verbatim %}
+
 		<aside class="modal fade" id="RegModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="RegModalLabel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-centered">
 				<div class="modal-content px-4 cake__modal">
@@ -15,10 +15,12 @@
 					<div class="modal-header border-0 py-0">
 						<label for="reg" class="modal-title font_Gogh fs_40 cake_blue" id="RegModalLabel">Вход / Регистрация</label>
 					</div>
-										<form class="d-none">
-						<input v-model="RegInput" type="text" name="REG">
+          <form class="d-none" action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+						<input v-model="RegInput" type="text" name="REG" >
 						<button type="submit" ref="HiddenFormSubmitReg">reg</button>
 					</form>
+          {% verbatim %}
 					<v-form :validation-schema="RegSchema" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
 						<v-field v-if="RegInput !== 'Регистрация успешна'" v-model="RegInput" name="reg" type="text" id="reg" :placeholder="Step === `Number` ? `Введите ваш номер` : `Введите код`" class="form-control cake__textinput"></v-field>
 						<v-field v-if="Step === 'Number'" v-model="RegInput" type="phone" name="phone_format" class="d-none"></v-field>
