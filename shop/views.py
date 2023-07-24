@@ -7,7 +7,7 @@ from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 
 from bakecake import settings
-from shop.models import Layer, Berries, Topping, Shape, Decor, UtmCheckin, Customers
+from shop.models import Layer, Berries, Topping, Shape, Decor, UtmCheckin, Customers, Orders
 
 
 def index(request):
@@ -51,7 +51,6 @@ def login_page(request):
 
 
 def get_context(client):
-
     serialised_orders = []
     for order in client.orders.all():
         serialised_orders.append({
@@ -94,6 +93,7 @@ def logout_page(request):
 def payment(request):
     pass
 
+
 def lk(request):
     user = request.user
     client = user.customer.get()
@@ -102,8 +102,55 @@ def lk(request):
     response.set_cookie('phone', str(client.phone))
     return response
 
-def check_utm(request):
 
+@require_http_methods(['POST'])
+def makeorder(request):
+    if request.user.is_authenticated:
+        client = Customers.objects.get(user=request.user)
+        user = client.user
+    else:
+        phone = request.POST.get('PHONE')
+        user = User.objects.create_user(
+            username=phone,
+            password='1234'
+        )
+        client, created = Customers.objects.get_or_create(
+            user=user,
+            phone=phone,
+            defaults={
+                'address': '',
+            },
+        )
+
+        login(request, user)
+    name = request.POST.get('NAME')
+    if name:
+        user.name = name
+        user.save()
+    d_date = request.POST.get('DATE', '1970-01-01')
+    d_time = request.POST.get('TIME', '00:00')
+
+    price = int(request.POST.get('COST', 10000))
+
+    order = Orders(
+        customer=client,
+        layer_id=request.POST.get('LEVELS'),
+        shape_id=request.POST.get('FORM'),
+        topping_id=request.POST.get('TOPPING'),
+        berry_id=request.POST.get('BERRIES', '1'),
+        decor_id=request.POST.get('DECOR', '1'),
+        word=request.POST.get('WORDS', '1'),
+        comment=request.POST.get('COMMENTS', ''),
+        price=price,
+        delivery_address=request.POST.get('ADDRESS'),
+        delivery_comment=request.POST.get('DELIVCOMMENTS'),
+        date_delivery=datetime.strptime(f"{d_date}", "%Y-%m-%d"),
+        time_delivery=datetime.strptime(f"{d_time}", "%H:%M")
+    )
+    order.save()
+    return redirect('lk')
+
+def check_utm(request):
     get_referer = request.GET.get('utm_source')
 
     if not get_referer:

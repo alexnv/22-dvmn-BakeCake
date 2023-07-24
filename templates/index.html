@@ -197,7 +197,7 @@
 			</section>
 
 			<section class="row pt-header" id="step4" v-if="Designed">
-				<form class="d-none">
+				<form class="d-none" >
 					{% for layer in layers %}
 					  <input v-model="Levels" value="{{layer.id}}" type="radio" name="LEVELS">
 					{% endfor %}
@@ -228,7 +228,9 @@
 					<input v-model="Dates" type="date" name="DATE">
 					<input v-model="Time" type="time" name="TIME">
 					<input v-model="DelivComments" type="text" name="DELIVCOMMENTS">
-					<button type="submit" ref="HiddenFormSubmit">Submit Order</button>
+          <input v-model="Total" type="text" name="COST">
+					<button type="submit" ref="HiddenFormSubmit" formmethod="post" formaction="{% url 'makeorder' %}" >Submit Order</button>
+
           {% csrf_token %}
 				</form>
 				<v-form :validation-schema="schema2" @submit="this.$refs.HiddenFormSubmit.click()">

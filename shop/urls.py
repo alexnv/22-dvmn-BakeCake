@@ -9,5 +9,6 @@ urlpatterns = [
     path('login', views.login_page, name='login'),
     path('logout', views.logout_page, name='logout'),
     path('payment', views.payment, name='payment'),
+    path('makeorder', views.makeorder, name='makeorder'),
     path('lk/', login_required(login_url='index')(views.lk), name='lk'),
 ]

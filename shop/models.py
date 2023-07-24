@@ -268,6 +268,9 @@ class Orders(models.Model):
     date_delivery = models.DateField('Дата доставки')
     time_delivery = models.TimeField('Время доставки')
 
+    delivery_address = models.TextField(verbose_name='Адрес доставки', blank=True)
+    delivery_comment = models.TextField(verbose_name='Комментарий для курьера', blank=True)
+
     status = models.CharField(
         'Статус заказа',
         max_length=20,
