@@ -31,3 +31,10 @@ sudo docker-compose up
 ```
 
 This should build the image and start the container. You may see Windows Defender warning about Docker trying to listen on port 8000. After the container has started, open the browser again on http://localhost:8000/, and you should see site
+
+## data export to CSV
+Для получения отчета о продажах тортов необходимо выполнить команду:
+```shell
+csvsql --query "select check_in_date,utm_source,utm_medium,utm_campaign,utm_content,utm_term;" report.csv
+```
+где имена после слова 'select' - названия столбцов, по которым необходимо получить отчет, а report.csv - имя файла, в которые эти данный будут записаны.  
