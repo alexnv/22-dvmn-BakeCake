@@ -288,15 +288,17 @@ class Orders(models.Model):
 
 class UtmCheckin(models.Model):
     check_in_date = models.DateTimeField('Время захода', auto_now=True)
-    utm_source = models.CharField('Источник UTM', max_length=100)
-    utm_medium = models.CharField('Тип траффика', max_length=10)
-    utm_campaign = models.CharField('Название компании', max_length=100)
-    utm_content = models.CharField('Идентификатор объявления', max_length=250)
-    utm_term = models.CharField('Ключевое слово', max_length=100)
+    utm_source = models.CharField('Источник UTM', max_length=100, blank=True, default='', null=True)
+    utm_medium = models.CharField('Тип траффика', max_length=10, blank=True, default='', null=True)
+    utm_campaign = models.CharField('Название компании', max_length=100, blank=True, default='', null=True)
+    utm_content = models.CharField('Идентификатор объявления', max_length=250, blank=True, default='', null=True)
+    utm_term = models.CharField('Ключевое слово', max_length=100, blank=True, default='', null=True)
+
+    page = models.CharField('Адрес страницы', blank=True, max_length=200, default='', null=True)
 
     class Meta:
         verbose_name = 'UTM метка'
         verbose_name_plural = 'UTM метки'
 
     def str(self):
-        return self.utm_source
+        return f"{self.page} - {self.utm_source}"
