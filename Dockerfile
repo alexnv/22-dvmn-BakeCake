@@ -4,4 +4,6 @@ WORKDIR /opt/app
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY . /opt/app
-CMD [ "python3", "./manage.py", "runserver"]
+RUN python manage.py migrate
+RUN python manage.py loaddata demo-data --format JSON
+CMD [ "python", "./manage.py", "runserver"]
